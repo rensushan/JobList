@@ -16,6 +16,7 @@ JobList for WXSC
 ##神经网络和量化
 ###阅读文档和论文
 #### NVIDIA H100 Tensor Core GPU Architecture(White paper)
+ * NVIDIA H100 Tensor Core GPU Architecture(White paper)*
 ####
 
 
