@@ -50,9 +50,9 @@
  
 ## Security
 >### 加密技术
- > >  多方计算(MPC)
+ > > - 多方计算(MPC)
 > > 
- > >  同态加密(HE):    [同态加密开源库、工具、框架](https://github.com/jonaschn/awesome-he)
+ > > - 同态加密(HE):    [同态加密开源库、工具、框架](https://github.com/jonaschn/awesome-he)
 >### 可信执行环境(TEE)
 > >  - TDX
 > >  - SGX
@@ -62,7 +62,7 @@
 > >  - H100 MIG-level TEE
      
 ## 高性能计算HPC
->  冷冻电镜
+>  - 冷冻电镜
 
 
 ## 开发环境
