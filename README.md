@@ -4,22 +4,26 @@
 
 # 2023/7/10 
 
+
+
 ## 主要事项
-  - 冷冻电镜介绍（余总）
+  - ）
   -  
 
-## 神经网络和量化
-
-### 工作内容
-  - Training Transformers with 4-bit Integers （https://arxiv.org/abs/2306.11987, 朱军）
-  - 
-  - 
+## 上周任务完成情况
 
 
-## 完成情况
+## 当前问题汇总
 
 
-## 问题汇总
+
+## 工作内容
+  -  Training Transformers with 4-bit Integers （https://arxiv.org/abs/2306.11987, 朱军）
+  -  继续复现FP8训练（CV, NLP, Transformer）
+  -  
+
+
+
 
 
 
