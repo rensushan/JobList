@@ -18,8 +18,8 @@
  - 安排近期见面交流  
 
 ## 本周工作内容
-  -  Training Transformers with 4-bit Integers （https://arxiv.org/abs/2306.11987, 朱军）
-  -  继续复现FP8训练（CV, NLP, Transformer）
+  -  （刘  涛）Training Transformers with 4-bit Integers （https://arxiv.org/abs/2306.11987, 朱军）
+  -  （朱能静）继续复现FP8训练（CV, NLP, Transformer）
      
 
 
