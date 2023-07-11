@@ -20,8 +20,13 @@
 ## 本周工作内容
   -  （刘  涛）Training Transformers with 4-bit Integers （https://arxiv.org/abs/2306.11987, 朱军）
   -  （朱梦静）继续复现FP8训练（CV, NLP, Transformer）
-     
-
+  -  （刘，朱）建立神经网络FP32 Baseline环境，本周务必完成
+      1. 下载CV数据集 ImageNet 1K(2012) 和 ImageNet 21K; 至少完成一次ViT-B/32模型训练；
+      2. 下载mnist和cifar10/100数据集； 完成一次LeNet/ Resnet训练  
+      3. 在PyTorch上安装NVIDIA DALI
+      4. 下载WMT数据库
+      5. 下载BERT模型，进行微调
+  
 
 
 
