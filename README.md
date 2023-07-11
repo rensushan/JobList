@@ -26,7 +26,7 @@
       3. 在PyTorch上安装NVIDIA DALI
       4. 下载WMT数据库
       5. 下载BERT模型，进行微调
-  
+      6.  所有数据集都放在  ~/dataset目录下
 
 
 
