@@ -13,19 +13,32 @@
   -  本周工作安排
  
 ## 上周工作总结
-  - （朱梦静） 1、已下载mnist和cifar10数据集并完成一次LeNet训练；2、已在PyTorch上安装NVIDIA DALI并根据官方手册，完成了简单的pipeline创建；3、已下载bert-base-chinese和bert-base-uncased模型；4、已下载WMT数据库中2022年的中英数据集；5、已跑通ppq里的实例。
+  - （朱梦静）
+     1. 已下载mnist和cifar10数据集并完成一次LeNet训练
+     2. 已在PyTorch上安装NVIDIA DALI并根据官方手册，完成了简单的pipeline创建；
+     3. 已下载bert-base-chinese和bert-base-uncased模型
+     4. 已下载WMT数据库中2022年的中英数据集；
+     5. 已跑通ppq里的实例
   - （刘  涛）
-  - （邓 佺）1、修改返修论文；2、学习量子计算相关基础知识。
+     1. 下载ImageNet 1k
+     2. 21k数据集较大，wget下载不稳定，暂尝试使用公开21k预训练模型进行微调
+     3. 进行ViT-B模型训练，但训练结果未达预期
+     4. 阅读《Training Transformers with 4-bit Integers》，但尚未完成int4量化实验复现
+  - （邓 佺）
+     1. 修改返修论文；
+     2. 学习量子计算相关基础知识
   - （盐城运维）已安装Module, cmake, gcc等常用工具/库
   
 ## 当前问题汇总
-   -  git clone经常失败，就算成功了下载速度也很慢：目前使用sftp。
+   -  git clone经常失败，就算成功了下载速度也很慢：目前使用sftp。（需要翻墙）    
    -  
 
 ## 本周安排
-   -  (刘) 
-   -  (朱） 
+   -  (刘)  ViT-B训练/微调；  复现朱军INT4训练
+   -  (朱） 完成一次BERT微调； 
    -  (邓） 
+
+
 
 # 2023/7/10 
 
