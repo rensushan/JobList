@@ -15,7 +15,7 @@
 ## 上周工作总结
   - （朱梦静） 1、已下载mnist和cifar10数据集并完成一次LeNet训练；2、已在PyTorch上安装NVIDIA DALI并根据官方手册，完成了简单的pipeline创建；3、已下载bert-base-chinese和bert-base-uncased模型；4、已下载WMT数据库中2022年的中英数据集；5、已跑通ppq里的实例。
   - （刘  涛）
-  - （邓 佺）
+  - （邓 佺）1、修改返修论文；2、学习量子计算相关基础知识。
   - （盐城运维）已安装Module, cmake, gcc等常用工具/库
   
 ## 当前问题汇总
