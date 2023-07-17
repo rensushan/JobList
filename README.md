@@ -34,8 +34,10 @@
    -  
 
 ## 本周安排
+   量化分PQT（post traing quantization）,  QAT(quantization aware training ),  FQT(fully quantization training).
+   我们当前的主要目标是FQT.
    -  (刘)  ViT-B训练/微调；  复现朱军INT4训练
-   -  (朱） 完成一次BERT微调； 
+   -  (朱） 完成一次BERT微调； 复现FP8训练
    -  (邓） 
 
 
