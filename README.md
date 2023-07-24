@@ -7,6 +7,39 @@
 
 
 
+
+# 2023/7/24 
+## 主要事项
+  -  上周工作总结  
+  -  本周工作安排
+ 
+## 上周工作总结
+  - （朱梦静）
+     1. 微调BERT，（bert-base-uncased+COLA， bert-base-chines+THUCNews）
+     2. 复现 FP8 Quantization：The Power of the Exponent 实验；
+
+  - （刘  涛）
+     1. ViT-B/32在imagenet-1k的训练与微调，模型精度75.1\%
+     2. 完成Training Transformer with 4-bit Integers论文的数学推导与实现代码分析; 未完全理解BP位分割和LSS的代码实现; 周末继续研读代码逻辑。
+
+  - （邓 佺）
+     1. 搭建分子动力学模拟实验环境（LAMMPS和GPUMD）, 记录RTX 3090以及I7-11700的性能以及功耗表现
+     2.	按照审稿意见修改论文图表标题以增加额外信息
+     3.	学习量子计算基础（https://zhuanlan.zhihu.com/p/48958223）， 	了解基本概念和原理（量子态、态矢、态空间，不确定原理， Stern-Gerlach实验，波函数以及薛定谔方程）
+
+   
+## 遗留问题和当前问题汇总
+   - git访问和翻墙问题
+   -  
+
+## 本周安排
+   -  (刘)  了解LLaMa(1,2)开源LLM (https://arxiv.org/abs/2302.13971,  https://github.com/facebookresearch/llama )， 完成一次微调任务；  复现朱军INT4训练
+   -  (朱） Transformer-based  WMT14 En-De /BLEU ;  
+   -  (邓）  理解量子计算与张量运算的关系，了解计算过程； 修改论文
+
+
+
+
 # 2023/7/17 
 ## 主要事项
   -  上周工作总结  
