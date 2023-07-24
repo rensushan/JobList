@@ -33,8 +33,8 @@
    -  
 
 ## 本周安排
-   -  (刘)  了解LLaMa(1,2)开源LLM (https://arxiv.org/abs/2302.13971,  https://github.com/facebookresearch/llama )， 完成一次微调任务；  复现朱军INT4训练
-   -  (朱） Transformer-based  WMT14 En-De /BLEU ;  
+   -  (刘)  了解LLaMa(1,2)开源LLM (https://arxiv.org/abs/2302.13971,  https://github.com/facebookresearch/llama )， 完成一次微调任务，并记录实验结果；  复现朱军INT4训练
+   -  (朱） Transformer-based  WMT14 En-De /BLEU ;   针对朱军Training Transformer with 4-bit Integers论文，把所有浮点baseline的实验跑一遍
    -  (邓）  理解量子计算与张量运算的关系，了解计算过程； 修改论文
 
 
