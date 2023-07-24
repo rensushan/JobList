@@ -101,12 +101,7 @@ The GPU usage is **95% to 96%**.
 Accuracy on the CoLA benchmark is measured using the **Matthews correlation coefficient** (MCC).
 - The MCC of [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/pdf/1810.04805.pdf) is **0.521**.
 - The MCC of [huggingface](https://github.com/huggingface/transformers/tree/5bfcd0485ece086ebcbed2d008813037968a9e58/examples) is **0.489**.
-- Our MCC is **0.540** and Acc is **0.83**.
-
-## Reference
-
-[BERT Fine-Tuning Tutorial with PyTorch](https://mccormickml.com/2019/07/22/BERT-fine-tuning/)  
-By Chris McCormick and Nick Ryan
+- Our MCC is **0.513** and Acc is **0.83**.
 
 ## Reference
 
