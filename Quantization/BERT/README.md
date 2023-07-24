@@ -11,6 +11,7 @@ At the moment, the Hugging Face library seems to be the most widely accepted and
 	- [Details](#details)
 - [Result](#result)
 - [Reference](#reference)
+- [Appendix](#appendix)
 
 ## Background
 
@@ -106,3 +107,20 @@ Accuracy on the CoLA benchmark is measured using the **Matthews correlation coef
 
 [BERT Fine-Tuning Tutorial with PyTorch](https://mccormickml.com/2019/07/22/BERT-fine-tuning/)  
 By Chris McCormick and Nick Ryan
+
+## Reference
+
+[BERT Fine-Tuning Tutorial with PyTorch](https://mccormickml.com/2019/07/22/BERT-fine-tuning/)  
+By Chris McCormick and Nick Ryan
+
+## Appendix
+
+*MCC*
+
+[Matthews Correlation Coefficient(MCC)](https://towardsdatascience.com/the-best-classification-metric-youve-never-heard-of-the-matthews-correlation-coefficient-3bf50a2f3e9a)
+
+由precision、recall、F1的计算公式可以看出这三个指标完全与TN无关，只关心正类而忽略了负类的表现。而当类别不平衡时ACC的评估指标无法关注到少数类。为了解决这个问题，可以将prediction与真实结果看为两个0-1分布，然后用马修斯相关系数衡量两个分布的相似性：
+
+- 当FP=FN=0即完全预测正确时 MCC=1
+- 当完全预测错误时MCC=-1，此时将标签逆转即可
+- 当MCC=0时表明模型不比随机预测好
