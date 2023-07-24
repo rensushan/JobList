@@ -34,7 +34,7 @@
 
 ## 本周安排
    -  (刘)  了解LLaMa(1,2)开源LLM (https://arxiv.org/abs/2302.13971,  https://github.com/facebookresearch/llama )， 完成一次微调任务，并记录实验结果；  复现朱军INT4训练
-   -  (朱） Transformer-based  WMT14 En-De /BLEU ;   针对朱军Training Transformer with 4-bit Integers论文，把所有浮点baseline的实验跑一遍
+   -  (朱） 微调机器翻译Transformer-based模型(Attention is all you need, NIPS2017) + WMT14 En-De ;   运行目标识别和定位模型 MaskRCNN(ResNet50) (COCO)，SSD-Lite(MobileNetV2) (VOC)； 针对朱军Training Transformer with 4-bit Integers论文实验中提到的所有模型，把浮点baseline的实验跑一遍；记录实验结果、训练或微调运行时间；
    -  (邓）  理解量子计算与张量运算的关系，了解计算过程； 修改论文
 
 
