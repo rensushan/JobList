@@ -69,7 +69,7 @@ $ python run_glue.py --model_name_or_path bert-base-uncased --task_name cola --d
 | MRPC  | Accuracy/F1                  | 80.15/86.52 |   34.552          |   1.432             |
 | STS-B | Pearson/Spearman corr        | 87.06/86.78 |   93.303          |   6.914             |
 | QQP   | Accuracy/F1                  | 90.64/87.51 |   2773.041        |   136.169           |
-| MNLI  | Matched acc/Mismatched acc   | 83.91/84.10 |   9323.000        |   
-| QNLI  | Accuracy                     | 89.66       |   1857.000        |   
+| MNLI  | Matched acc/Mismatched acc   | 84.63/84.54 |   3756.094        |   30.812            |
+| QNLI  | Accuracy                     | 91.12       |   1595.305        |   23.790            |
 | RTE   | Accuracy                     | 57.04       |   45.743          |   1.227             |
 | WNLI  | Accuracy                     | 52.11       |   19.382          |   0.334             |
