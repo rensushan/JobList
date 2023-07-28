@@ -3,13 +3,12 @@
 ## Requirements
 
 - Install PyTorch ([pytorch.org](http://pytorch.org))
-- Install timm
 - Download the ImageNet dataset from http://www.image-net.org/
   - Then, move and extract the training and validation images to labeled subfolders
 
 ```
 # use this env
-conda activate t2
+conda activate master
 ```
 
 ## Dataset processing
@@ -20,65 +19,80 @@ The validation set label requires additional processing.
 
 Details can be found in the `imagenet_preprocess.md`
 
+## Details
+
+imagenet-1k数据集位置：/vg_data/ice/dataset/imagenet/1k
+
+源代码位置：/data/ice/quantization/imagenet2/jeons
+
+预训练权重位置 ： /data/ice/quantization/imagenet2/jeons/ViT/checkpoint
+
+微调模型保存位置： /data/ice/quantization/imagenet2/jeons/ViT/output/ViTScheduler/ViTScheduler_checkpoint.bin
+
 ## Training
 
-To train a model, run `main.py` with ViT and the path to the ImageNet dataset:
+To train a model, run `train.py`
 
-```bash
-python main.py -p /data/ice/quantization/imagenet/pre-train_pth/vit_b_32.pth --save_model_path
+```
+# 终端先限定GPU
+export CUDA_VISIBLE_DEVICES=1
+""" 超参设置, 此处超参设置参考ViT论文 
+'AN IMAGE IS WORTH 16X16 WORDS: TRANSFORMERS FOR IMAGE RECOGNITION AT SCALE' B 1.1章节 Table4
+图像分辨率     = 384*384
+batch_size    = 512
+每 500 steps训练后进行验证
+总训练steps    =   20000
+"""
+python train.py --name ViT_ft --img_size 384 --train_batch_size 512 --eval_every 500 --num_steps 20000 --output_dir /data/ice/quantization/imagenet2/jeons/ViT/output/ViT_ft
 ```
 
-## Validation
 
-```bash
-python main.py -e --load_model_path /data/ice/quantization/imagenet/res/vit_b_32_ft/model_best.pth
-```
-
-Since it is not the `state_dict` but the whole model that is saved during training, the validation session loads the whole model directly using `model = torch.load(*pth)`.The `load_state_dict` and `save_checkpoint` methods will be refactored later.
 
 ## Usage
 
 ```bash
-usage: main.py [-j N] [--epochs N] [-b N] [--lr LR] [--momentum M] [--wd W] [-p N] [-e] [--pretrained_model_path] [--load_model_path] [--pretrained_model_path] [--gpu GPU] [DIR]
+usage: train.py --name str [--epochs N] [-b N] [--lr LR] [--momentum M] [--wd W] [-p N] [-e] [--pretrained_model_path] [--load_model_path] [--pretrained_model_path] [--gpu GPU] [DIR]
 
-optional arguments:
- DIR                                     path to dataset (default: '/vg_data/ice/dataset/imagenet/1k')
-  -j N, --workers N                      number of data loading workers (default: 4)
-  --epochs N                             number of total epochs to run (defalut: 14)
-  -b N, --batch-size N                   mini-batch size (default: 256)
-  --lr LR, --learning-rate LR
-                                         initial learning rate
-  --momentum M                           momentum
-  --wd W, --weight-decay W
-                                         weight decay (default: 1e-4)
-  --print-freq N                         print frequency (default: 10)
-  -e, --evaluate                         evaluate model on validation set
-  -p N, --pretrained_model_path          pre-trained model path, (default: None)
-  --lmp, --load_model_path               Path of load model
-  --save_model_path                      Path where the model will be saved
-  --gpu GPU                              GPU id to use.(defalut: 0)
+ 必要参数：
+  --name str                     训练命名，log文件也将以此命名 ''
+                                 并保存在/data/ice/quantization/imagenet2/jeons/logs
+                                 
+  --output_dir str               微调模型保存地址         
+ 
+ 可选参数：                             
+  DIR                            数据集存储地址 (default: '/vg_data/ice/dataset/imagenet/1k')
+  --model_type                   选择网络模型,可选项["ViT-B_16", "ViT-B_32", "ViT-L_16",
+                                                 "ViT-L_32", "ViT-H_14", "R50-ViT-B_16"]
+                                 (default: ViT-B_32)
+                                 
+  --pretrained_dir str           预训练权重保存地址 
+                   (defalut: /data/ice/quantization/imagenet2/jeons/ViT/checkpoint/imagenet21k_ViT-B_32.npz)
+   
+  --img_size N                   图像分辨率 (default: 224)
+  --train_batch_size N           训练Batch Size (default: 2048)  batch_size 随着img_size调整                   
+  --eval_batch_size N            验证Batch Size (defalut: 64)
+  --eval_every N                 验证前需要训练的Steps (default: 500)
+  
+                                 
+  --learning_rate float          学习率 (default: 3e-2)
+  --weight_decay float           default：0
+  --num_steps N                  总训练Steps (default: 20000)
+  --decay_type                   学习率调整方法 可选项["cosine", "linear"]，(default: "cosine")
+  --warmup_steps N               Warm Up 的 Steps (default: 500)
+  --max_grad_norm float          梯度上限， (default: 1)
 
 ```
 
 ## Result
 
-The final model is stored in `res`folder. 
-
-| model                                    | top1   | top5   | path                                                         |
-| ---------------------------------------- | ------ | ------ | ------------------------------------------------------------ |
-| torchvision.models.vit_b_32_ft_14epochs  | 75.178 | 92.350 | /data/ice/quantization/imagenet/res/vit_b_32_ft/model_best.pth |
-| timm/vit_base_patch32_clip_224.openai_ft | 81.378 | 95.668 | /data/ice/quantization/imagenet/res/vit_b_32_timm_ft/model_best.pth |
-
-The first line is pre-training based on **Pytorch** public weights.
-
-The second line is pre-training based on the **TIMM library** public weights. (Closer to the int4 paper results)
+plz wait 6h。
 
 ## Reference
 
 ### Code
 
-[examples/imagenet at main · pytorch/examples (github.com)](https://github.com/pytorch/examples/tree/main/imagenet)
+[jeons Version ViT]: https://github.com/jeonsworld/ViT-pytorch
 
-### Pre-trained model
+### Pre-trained model (Google's Official Checkpoint)
 
-[timm/vit_base_patch32_clip_224.openai_ft_in1k · Hugging Face](https://huggingface.co/timm/vit_base_patch32_clip_224.openai_ft_in1k)
+https://console.cloud.google.com/storage/browser/_details/vit_models/imagenet21k/ViT-B_32.npz;tab=live_object?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))
