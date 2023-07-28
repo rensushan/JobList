@@ -23,7 +23,7 @@ Details can be found in the `imagenet_preprocess.md`
 
 imagenet-1k数据集位置：/vg_data/ice/dataset/imagenet/1k
 
-源代码位置：/data/ice/quantization/imagenet2/jeons
+**代码位置**：/data/ice/quantization/imagenet2/jeons
 
 预训练权重位置 ： /data/ice/quantization/imagenet2/jeons/ViT/checkpoint
 
