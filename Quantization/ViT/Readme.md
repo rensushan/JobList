@@ -36,7 +36,8 @@ To train a model, run `train.py`
 ```
 # 终端先限定GPU
 export CUDA_VISIBLE_DEVICES=1
-""" 超参设置, 此处超参设置参考ViT论文 
+
+""" 训练超参设置, 此处超参设置参考ViT论文 
 'AN IMAGE IS WORTH 16X16 WORDS: TRANSFORMERS FOR IMAGE RECOGNITION AT SCALE' B 1.1章节 Table4
 图像分辨率     = 384*384
 batch_size    = 512
@@ -91,7 +92,7 @@ plz wait 6h。
 
 ### Code
 
-[jeons Version ViT]: https://github.com/jeonsworld/ViT-pytorch
+jeons Version ViT: https://github.com/jeonsworld/ViT-pytorch
 
 ### Pre-trained model (Google's Official Checkpoint)
 
