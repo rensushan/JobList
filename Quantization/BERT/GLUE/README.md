@@ -24,12 +24,6 @@ $ pip install datasets
 $ pip install evaluate
 ```
 
-或者整理了一个`requirement.txt`，直接读取安装即可
-
-```sh
-$ pip install -r requirement.txt
-```
-
 ## Usage
 
 ```sh
