@@ -47,6 +47,11 @@ batch_size    = 512
 python train.py --name ViT_ft --img_size 384 --train_batch_size 512 --eval_every 500 --num_steps 20000 --output_dir /data/ice/quantization/imagenet2/jeons/ViT/output/ViT_ft
 ```
 
+## Validate
+```
+# img_size的设置影响 位置编码Tensor 的尺寸，所以必须设置.
+python train.py --name ViT_val --img_size 384 --load_model_dir /data/ice/quantization/imagenet2/jeons/ViT/output/ViTScheduler/ViTScheduler_checkpoint.bin -V True
+```
 
 
 ## Usage
@@ -82,11 +87,15 @@ usage: train.py --name str [--epochs N] [-b N] [--lr LR] [--momentum M] [--wd W]
   --warmup_steps N               Warm Up 的 Steps (default: 500)
   --max_grad_norm float          梯度上限， (default: 1)
 
+  --load_model_dir str           载入模型的所选地址 
+  -V, --validate bool            是否只进行验证，与load_model_dir搭配使用 (default: False)
 ```
 
 ## Result
+| train_img_size | train_batch_size | full steps | warmup steps | eval_every | Top1    |
+| -------------- | ---------------- | ---------- | ------------ | ---------- | ------- |
+| 384            | 512              | 20000      | 500          | 500        | 81.53   |
 
-plz wait 6h。
 
 ## Reference
 
