@@ -72,6 +72,21 @@ def setup(args):
     logger.info("Total Parameter: \t%2.1fM" % num_params)
     return args, model
 
+def setup_val(args):
+    # Prepare model
+    config = CONFIGS[args.model_type]
+
+    num_classes = 10 if args.dataset == "cifar10" else 100
+
+    model = VisionTransformer(config, args.img_size, zero_head=True, num_classes=num_classes)
+    model.load_state_dict(torch.load(args.load_model_dir))
+    model.to(args.device)
+    num_params = count_parameters(model)
+
+    logger.info("{}".format(config))
+    logger.info("Training parameters %s", args)
+    logger.info("Total Parameter: \t%2.1fM" % num_params)
+    return args, model
 
 def count_parameters(model):
     params = sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -137,6 +152,53 @@ def valid(args, model, writer, test_loader, global_step):
     writer.add_scalar("test/accuracy", scalar_value=accuracy, global_step=global_step)
     return accuracy
 
+def just_valid(args, model):
+    train_loader,test_loader = get_loader(args)
+    eval_losses = AverageMeter()
+
+    logger.info("***** Running Validation *****")
+    logger.info("  Num steps = %d", len(test_loader))
+    logger.info("  Batch size = %d", args.eval_batch_size)
+
+    model.eval()
+    all_preds, all_label = [], []
+    epoch_iterator = tqdm(test_loader,
+                          desc="Validating... (loss=X.X)",
+                          bar_format="{l_bar}{r_bar}",
+                          dynamic_ncols=True,
+                          disable=args.local_rank not in [-1, 0])
+    loss_fct = torch.nn.CrossEntropyLoss()
+    for step, batch in enumerate(epoch_iterator):
+        batch = tuple(t.to(args.device) for t in batch)
+        x, y = batch
+        with torch.no_grad():
+            logits = model(x)[0]
+
+            eval_loss = loss_fct(logits, y)
+            eval_losses.update(eval_loss.item())
+
+            preds = torch.argmax(logits, dim=-1)
+
+        if len(all_preds) == 0:
+            all_preds.append(preds.detach().cpu().numpy())
+            all_label.append(y.detach().cpu().numpy())
+        else:
+            all_preds[0] = np.append(
+                all_preds[0], preds.detach().cpu().numpy(), axis=0
+            )
+            all_label[0] = np.append(
+                all_label[0], y.detach().cpu().numpy(), axis=0
+            )
+        epoch_iterator.set_description("Validating... (loss=%2.5f)" % eval_losses.val)
+
+    all_preds, all_label = all_preds[0], all_label[0]
+    accuracy = simple_accuracy(all_preds, all_label)
+
+    logger.info("\n")
+    logger.info("Validation Results")
+    logger.info("Valid Loss: %2.5f" % eval_losses.avg)
+    logger.info("Valid Accuracy: %2.5f" % accuracy)
+    return accuracy
 
 def train(args, model):
     """ Train the model """
@@ -298,6 +360,10 @@ def main():
                         help="Loss scaling to improve fp16 numeric stability. Only used when fp16 set to True.\n"
                              "0 (default value): dynamic loss scaling.\n"
                              "Positive power of 2: static loss scaling value.\n")
+    parser.add_argument("--load_model_dir", type=str, default="/data/ice/quantization/master/ViT/output/cifar100_checkpoint.bin",
+                        help="Where to search for fine-tune ViT models.")
+    parser.add_argument("-v","--validate", type=bool, default=False,
+                        help="Whether to verify only.")
     args = parser.parse_args()
 
     # Setup CUDA, GPU & distributed training
@@ -321,12 +387,15 @@ def main():
 
     # Set seed
     set_seed(args)
-
-    # Model & Tokenizer Setup
-    args, model = setup(args)
-
-    # Training
-    train(args, model)
+    
+    if args.validate:
+        args,model = setup_val(args)
+        just_valid(args,model)
+    else:
+        # Model & Tokenizer Setup
+        args, model = setup(args)
+        # Training
+        train(args, model)
 
 
 if __name__ == "__main__":
