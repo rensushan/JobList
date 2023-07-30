@@ -1,0 +1,14 @@
+click
+fairseq
+fastBPE
+Hydra
+hydra-core
+numpy
+omegaconf
+pydra
+sacremoses
+sklearn
+subword-nmt
+tensorboardX
+torch
+tqdm
