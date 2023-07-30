@@ -50,17 +50,17 @@ python train.py --name cifar10 --dataset cifar10 --model_type ViT-B_32 --pretrai
 17  from apex import amp
 18  from apex.parallel import DistributedDataParallel as DDP
 ......
-163      if args.fp16:
-164          model, optimizer = amp.initialize(models=model,
-165                                            optimizers=optimizer,
-166                                            opt_level=args.fp16_opt_level)
-167          amp._amp_state.loss_scalers[0]._loss_scale = 2**20
-168 
-169      Distributed training
-170      if args.local_rank != -1:
-171          model = DDP(model, message_size=250000000, gradient_predivide_factor=get_world_size())
+225      if args.fp16:
+             model, optimizer = amp.initialize(models=model,
+                                               optimizers=optimizer,
+                                               opt_level=args.fp16_opt_level)
+             amp._amp_state.loss_scalers[0]._loss_scale = 2**20
+    
+         Distributed training
+         if args.local_rank != -1:
+233          model = DDP(model, message_size=250000000, gradient_predivide_factor=get_world_size())
 ......
-200         # loss.backward()
+263         # loss.backward()
              if args.fp16:
                  with amp.scale_loss(loss, optimizer) as scaled_loss:
                      scaled_loss.backward()
@@ -73,7 +73,7 @@ python train.py --name cifar10 --dataset cifar10 --model_type ViT-B_32 --pretrai
                  if args.fp16:
                      torch.nn.utils.clip_grad_norm_(amp.master_params(optimizer), args.max_grad_norm)
                  else:
-                     torch.nn.utils.clip_grad_norm_(model.parameters(), args.max_grad_norm)
+276                  torch.nn.utils.clip_grad_norm_(model.parameters(), args.max_grad_norm)
 ```
 
 Fine Tune后的权重保存路径为`/data/ice/quantization/master/ViT/output`,可以直接调用在验证集上跑Accuracy
