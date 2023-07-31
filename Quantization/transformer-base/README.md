@@ -106,6 +106,23 @@ CUDA_VISIBLE_DEVICES=2  fairseq-train data-bin/wmt14_en_de --arch transformer_wm
 最终batch size的大小为max-tokens、GPU数量、update-freq的乘积。
 
 **测试**
+
+研究了一下`fairseq-generate`代码，它对环境有固定要求，所以创建了一个新环境，其中包括
+
+`python==3.8`,`torch==1.12.1+cu113`,`torchvision==0.13.1+cu113`,`torchaudio==0.12.1`,`fairseq==0.12.2`
+
+此处借鉴[fairseq的issues](https://github.com/facebookresearch/fairseq/issues/4899)
+```
+pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
+pip install fairseq==0.12.2
+```
+
+有配好的环境可以直接用
+```
+conda activate gen
+```
+
+开始generate
 ```
 CUDA_VISIBLE_DEVICES=0 fairseq-generate data-bin/wmt14_en_de --arch transformer_wmt_en_de --path checkpoints/en-de/checkpoint_best.pt --batch-size 128 --beam 4 --remove-bpe --lenpen 0.6 --results-path res/en-de
 ```
@@ -125,6 +142,8 @@ CUDA_VISIBLE_DEVICES=0 fairseq-generate data-bin/wmt14_en_de --arch transformer_
 
 ## 结果
 
+结果保存在`/data/ice/quantization/fairseq-main/res/en-de/generate-test.txt`
+
 | epoch | updatas | training time | valid bleu | test bleu |
 |-------|---------|---------------|------------|-----------|
-|   1   |  3924   |   00:55:02    |   23.21    |           |
+|   1   |  3924   |   00:55:02    |   23.21    |   22.16   |
