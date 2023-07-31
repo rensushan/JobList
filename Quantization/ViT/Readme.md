@@ -95,7 +95,9 @@ usage: train.py --name str [--epochs N] [-b N] [--lr LR] [--momentum M] [--wd W]
 | train_img_size | train_batch_size | full steps | warmup steps | eval_every | Top1    |
 | -------------- | ---------------- | ---------- | ------------ | ---------- | ------- |
 | 384            | 512              | 20000      | 500          | 500        | 81.53   |
+| 224            | 2048             | 20000      | 500          | 626        | 76.19   |
 
+img_size = 224的网络训练至15000steps时可达ViT原文中75.9水平
 
 ## Reference
 
