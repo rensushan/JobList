@@ -151,7 +151,8 @@ CUDA_VISIBLE_DEVICES=0 fairseq-generate data-bin/wmt14_en_de --arch transformer_
 | epoch | updatas | training time | valid bleu | test bleu |
 |-------|---------|---------------|------------|-----------|
 |   1   |  3924   |   00:55:02    |   23.21    |   22.16   |
-|   10  |  39240  |   12:53:44    |   29.29    |   25.80   |
+|   10  |  39240  |   13:48:46    |   29.29    |   25.80   |
+|   20  |  78480  |   27:47:56    |   29.78    |   26.47   |
 
 ## 参数
 
