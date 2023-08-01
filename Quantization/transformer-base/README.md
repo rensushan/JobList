@@ -152,3 +152,21 @@ CUDA_VISIBLE_DEVICES=0 fairseq-generate data-bin/wmt14_en_de --arch transformer_
 |-------|---------|---------------|------------|-----------|
 |   1   |  3924   |   00:55:02    |   23.21    |   22.16   |
 |   10  |  39240  |   12:53:44    |   29.29    |   25.80   |
+
+## 参数
+
+bsz - batch size
+
+gnorm - L2 norm of the gradients
+
+clip - gradient clipping threshold
+
+train_wall - time taken for one training step
+
+wall - total time spent training, validating, saving checkpoints (so far)
+
+wps - Words Per Second
+
+ups - Updates Per Second
+
+wpb - Words Per Batch
