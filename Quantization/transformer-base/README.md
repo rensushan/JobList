@@ -27,6 +27,10 @@ git clone https://github.com/pytorch/fairseq.git
 cd fairseq && pip install --editable ./
 ```
 
+如使用fairseq库中的fairseq-train和fairseq-generate对数据集进行训练和测试，修改其代码在`/data/ice/anaconda3/envs/trans/lib/python3.8/site-packages/fairseq_cli`文件夹下
+
+如使用git clone从 https://github.com/facebookresearch/fairseq/tree/main 拉的源码，则可以在`/data/ice/quantization/fairseq-main`文件夹下修改代码，运行时则使用`python train.py ···`和`python generate.py ···`
+
 ### 命令行输入
 
 **预处理**
@@ -60,12 +64,12 @@ fairseq-preprocess --source-lang en --target-lang de --trainpref $TEXT/train --v
 参数结合了原文——[Attention Is All You Need](https://doi.org/10.48550/arXiv.1706.03762)以及fairseq的贡献者的回答
 
 ```
-CUDA_VISIBLE_DEVICES=2  fairseq-train data-bin/wmt14_en_de --arch transformer_wmt_en_de --share-decoder-input-output-embed --optimizer adam --adam-betas '(0.9, 0.98)' --clip-norm 0.0 --lr-scheduler inverse_sqrt --warmup-init-lr 1e-07 --warmup-updates 4000 --lr 0.0007 --stop-min-lr 1e-09 --criterion label_smoothed_cross_entropy --label-smoothing 0.1 --weight-decay 0.0 --max-tokens 4096 --save-dir checkpoints/en-de --update-freq 8 --no-progress-bar --log-format json --log-interval 50 --save-interval-updates 1000 --dropout 0.1 --max-epoch 1 --eval-bleu --eval-bleu-args '{"beam": 5, "max_len_a": 1.2, "max_len_b": 10}' --eval-bleu-detok moses --eval-bleu-remove-bpe --eval-bleu-print-samples --best-checkpoint-metric bleu --maximize-best-checkpoint-metric
+CUDA_VISIBLE_DEVICES=2  fairseq-train data-bin/wmt14_en_de --arch transformer_wmt_en_de --share-decoder-input-output-embed --optimizer adam --adam-betas '(0.9, 0.98)' --clip-norm 0.0 --lr-scheduler inverse_sqrt --warmup-init-lr 1e-07 --warmup-updates 4000 --lr 0.0007 --stop-min-lr 1e-09 --criterion label_smoothed_cross_entropy --label-smoothing 0.1 --weight-decay 0.0 --max-tokens 4096 --save-dir checkpoints/en-de --update-freq 8 --no-progress-bar --log-format json --log-interval 50 --save-interval-updates 1000 --dropout 0.1 --max-epoch 1 --eval-bleu --eval-bleu-args '{"beam": 5, "max_len_a": 1.2, "max_len_b": 10}' --eval-bleu-detok moses --eval-bleu-remove-bpe --best-checkpoint-metric bleu --maximize-best-checkpoint-metric
 ```
 
 --arch ：所使用的模型架构
 
---share-decoder-input-output-embed    --share-all-embeddings
+--share-decoder-input-output-embed    --share-all-embeddings    --eval-bleu-print-samples
 
 --optimizer ：指定使用的优化器，`Possible choices: adadelta, adafactor, adagrad, adam, adamax, composite, cpu_adam, lamb, nag, sgd`
 
@@ -126,7 +130,7 @@ conda activate gen
 ```
 CUDA_VISIBLE_DEVICES=0 fairseq-generate data-bin/wmt14_en_de --arch transformer_wmt_en_de --path checkpoints/en-de/checkpoint_best.pt --batch-size 128 --beam 4 --remove-bpe --lenpen 0.6 --results-path res/en-de
 ```
---path ：训练后的模型权重
+--path ：训练后的模型权重，保存在`/data/ice/quantization/fairseq-main/checkpoints`
 
 --gen-subset ：默认解码测试部分。指定解码其他部分，例如--gen-subset train 会翻译
 
@@ -147,3 +151,4 @@ CUDA_VISIBLE_DEVICES=0 fairseq-generate data-bin/wmt14_en_de --arch transformer_
 | epoch | updatas | training time | valid bleu | test bleu |
 |-------|---------|---------------|------------|-----------|
 |   1   |  3924   |   00:55:02    |   23.21    |   22.16   |
+|   10  |  39240  |   12:53:44    |   29.29    |   25.80   |
