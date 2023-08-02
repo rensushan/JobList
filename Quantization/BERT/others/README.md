@@ -10,7 +10,7 @@
 
 ## 目录结构
 
-在`/data/ice/quantization/master/BERT/SWAG`文件夹下
+在`/data/ice/quantization/master/BERT/others`文件夹下
 
 - `bert_base_uncased`目录中是BERT base英文预训练模型以及配置文件
 
@@ -60,18 +60,19 @@ $ conda activate master
 ```
 
 ## 使用方式
+
 ### Step 1. 下载数据 
 下载完成各个数据集以及相应的BERT预训练模型（如果为空），并放入对应的目录中。具体可以查看每个数据（`data`)目录下的`README.md`文件。
+
 ### Step 2. 运行模型 
 进入`Tasks`目录，运行相关模型.
-### 2.1 SWAG多项选择任务
 
+### 2.1 SWAG多项选择任务
 ```python
 python TaskForMultipleChoice.py
 ```
 
 ### 2.2 SQuAD问题回答任务
-
 ```python
 python TaskForSQuADQuestionAnswering.py
 ```
