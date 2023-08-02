@@ -20,9 +20,17 @@
 
 链接：https://arxiv.org/abs/1909.02384
 
+- 提出“WAGEUBN”框架量化DNNs中的所有算子W (Weights), A (Activation), G (Gradient), E (Error),U (Update), and BN至INT8
+
+- 其中E (Error)提供了两个版本，一个是8bit，一个是16bit，其余均一样为8bit（但update为24bit）
+
 ## 4 - [Towards unified int8 training for convolutional neural network](https://arxiv.org/pdf/1912.12607.pdf)
 
 链接：https://arxiv.org/abs/1912.12607
+
+- 对梯度做文章。①方向敏感的梯度裁剪，以减少梯度的方向偏差；②偏差反向学习率缩放，以避免沿错误方向的非法渐变更新。
+
+- W,A,G均量化到INT8
 
 ## 5 - [A Statistical Framework for Low-bitwidth Training of Deep Neural Networks](https://arxiv.org/pdf/2010.14298.pdf)
 
