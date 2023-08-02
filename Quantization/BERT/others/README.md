@@ -1,6 +1,7 @@
 # BertWithPretrained
 
 [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805)
+
 [参考代码](https://github.com/moon-hotel/BertWithPretrained/tree/main)
 
 ## 模型详细解析
