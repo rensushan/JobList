@@ -34,8 +34,8 @@
      2. 整理近年来8比特和4比特全量化训练的论文
 
   - （刘  涛）
-     1. 
-     2. 
+     1. 完成meta版本的LLaMA2在sumsum数据集上的微调
+     2. 完成MobilenetV2的模型在imagenet-1k训练
 
   - （邓 佺）
      1. 安装IBM Qiskit量子计算模拟器
@@ -48,7 +48,7 @@
    -  
 
 ## 本周安排
-   -  (刘)  
+   -  (刘)  完成LLaMA在其他经典数据集上的复现； ②解决LLaMA单卡Fine-Tune的bug； 完成DeepSpeed-RLHF系统对LLaMA大模型微调工作； 朱军论文在CNN和LLaMA上的适用性
    -  (朱） 
    -  (邓） 继续学习量子计算领域其他经典算法；调研量子计算与神威、FPGA相关的工作
   
