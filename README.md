@@ -49,8 +49,8 @@
    -  
 
 ## 本周安排
-   -  (刘)  完成LLaMA在其他经典数据集上的复现； ②解决LLaMA单卡Fine-Tune的bug； 完成DeepSpeed-RLHF系统对LLaMA大模型微调工作； 朱军论文在CNN和LLaMA上的适用性
-   -  (朱） 
+   -  (刘)  完成LLaMA在其他经典数据集上的复现； 解决LLaMA单卡Fine-Tune的bug； 完成DeepSpeed-RLHF系统对LLaMA大模型微调工作； 
+   -  (朱） 朱军论文在CNN和LLaMA上的适用性；调研FQT中梯度量化的方法
    -  (邓） 继续学习量子计算领域其他经典算法；调研量子计算与神威、FPGA相关的工作
   
 
