@@ -1,0 +1,66 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"></head><body><div class="zotero-notes"><div class="zotero-note"><h1>📕阅读小记📕</h1>
+<h1><span class="highlight">“Abstract”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 1</span>)</span></h1>
+<p>😟目前局限：现有的 4 位训练方法都是自定义数据格式，而当代硬件并不支持这些格式</p>
+<p>😊本文目的：针对transformer的训练方法，<span style="background-color: #ff666680">所有矩阵乘法</span>均采用 INT4 算法</p>
+<p style="padding-left: 40px" data-indent="1">对于前向传播：由于<span style="color: rgb(18, 18, 18)"><span style="background-color: rgb(255, 255, 255)">Activation</span></span>异常值的存在，提出了一种Hadamard量化器来抑制异常值</p>
+<p style="padding-left: 40px" data-indent="1">对于反向传播：我们利用梯度的结构稀疏性，提出了位分割，并利用分数采样技术对梯度进行精确量化</p>
+<h1><span class="highlight">“ Conclusions”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 9</span>)</span></h1>
+<p>😊实验结论：可以在当前一代 GPU 上实现。线性算子实现速度是 FP16 对应算子的 2.2 倍，训练速度提高了 35.1%</p>
+<p style="padding-left: 40px" data-indent="1">贡献：提出了 HQ 和 LSS 方法，在保持准确性的同时量化激活和梯度。我们的工作有可能从transformer扩展到其他纯 MM 架构，如 MLP-Mixer、图神经网络和递归神经网络</p>
+<p style="padding-left: 40px" data-indent="1">环保：提高训练神经网络的效率，降低能耗，有助于减少深度学习带来的碳足迹</p>
+<p style="padding-left: 40px" data-indent="1">危害：对人类的安全产生影响；以及恶意的人工智能应用，如虚假内容生成</p>
+<p>😟局限性：只能加速有大量矩阵乘法的模型（线性层），而<span style="background-color: #ff666680">不能加速卷积层</span>。此外，所提出的方法还不能很好地用于那些<span style="background-color: #ff666680">超大型模型</span>，如 OPT-175B。</p>
+<h1><span class="highlight">“Forward Propagation”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 2</span>)</span></h1>
+<p>🏠<span class="highlight">“linear and non-linear (GeLU, normalization, softmax, etc.)”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 2</span>)</span></p>
+<p style="padding-left: 40px" data-indent="1">🌼线性运算都可以用矩阵乘法（MM）表示，用INT4量化</p>
+<p style="padding-left: 40px" data-indent="1">🌼运算量较小的非线性运算用FP16运算</p>
+<h2>Learned Step Size Quantization，LSQ<span class="citation">(<span class="citation-item">Xi 等, 2023, p. 3</span>)</span></h2>
+<p>😊一种静态量化方法：scale是一个固定的浮点值，不受输入影响</p>
+<p>float先除以一个scale，然后控制溢出（范围在-7到7之间），最后取整得到LSQ量化后的int数</p>
+<p>如果反量化，则乘上scale，但此时得到的float已将不可以表示的小数截断了</p>
+<h2><span class="highlight">“Activation Outliers”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 3</span>)</span></h2>
+<p>😟简单地将 LSQ 应用于具有 4 位激活/权重的 FQT，会因激活异常值而导致精度下降</p>
+<p style="padding-left: 40px" data-indent="1">原因1：如果将scale设置很大，可以很好的兼顾到异常值，但是其他正常的值就无法精确表示</p>
+<p style="padding-left: 40px" data-indent="1">原因2：如果scale设置很小，异常值就会在[-Qn,Qp]范围内被截断,影响结果，因为transformer往往将信息存在异常值中</p>
+<h2><span class="highlight">“Hadamard Quantization”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 4</span>)</span></h2>
+<p>🥢提出HQ来解决离群值问题</p>
+<p style="padding-left: 40px" data-indent="1">🌼运用Hadamard矩阵将激活和权重矩阵中异常值分摊到其他数值上</p>
+<p style="padding-left: 40px" data-indent="1">🌼步骤：</p>
+<p style="padding-left: 80px" data-indent="2">Ⅰ 用FP16先计算XH和HW^T</p>
+<p style="padding-left: 80px" data-indent="2">Ⅱ 用LSQ分别对两个计算后的矩阵做INT4量化</p>
+<p style="padding-left: 80px" data-indent="2">Ⅲ 将两个量化后的INT4矩阵相乘</p>
+<p style="padding-left: 80px" data-indent="2">Ⅳ 乘上两个scale反量化回FP16</p>
+<h1><span class="highlight">“Back Propagation”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 5</span>)</span></h1>
+<p>🏠将梯度Y量化为INT4，梯度公式见<span class="highlight">“(4)”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 5</span>)</span></p>
+<p style="padding-left: 40px" data-indent="1"><span class="highlight">“◦”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 5</span>)</span>：0/1 矩阵与另一个 INT4（或 INT32）矩阵的逐元素乘法，运算的时间复杂度较低</p>
+<p style="padding-left: 40px" data-indent="1"><span class="highlight">“sW H⊤”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 5</span>)</span>：INT32 矩阵与 FP16 分块H矩阵的乘法，运算的时间复杂度较低</p>
+<p style="padding-left: 40px" data-indent="1"><span class="highlight">“quantizing ∇Y to INT4”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 5</span>)</span>：FP16 梯度∇Y 与 INT4 矩阵 ˆ X 或 ˆ W 的乘积，计算开销大</p>
+<h2><span class="highlight">“Structural Sparsity of Gradients”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 5</span>)</span></h2>
+<p>🐟梯度矩阵 ∇Y 在训练过程中往往非常稀疏</p>
+<p style="padding-left: 40px" data-indent="1">稀疏性还具有一定的结构：∇Y 的少数行具有较大的条目，而其他大多数行则接近于全零向量</p>
+<p style="padding-left: 80px" data-indent="2">在预训练任务中，这种结构稀疏性仅在几个训练世代后就会迅速出现</p>
+<p style="padding-left: 80px" data-indent="2">在微调任务中，梯度在整个训练过程中始终是稀疏的</p>
+<p>💤补充：sparse 代表数据为0，sparse数据的存在让不为0的dense数据聚集在一起；<br><span style="background-color: #ff666680">因为存在数据聚集效应，所以才能学到特征和规律</span>；<br>如果数据维度很高，噪音很多，原本为0的位置，占比会越来越少，稀疏区域在消失；<br>对应的dense数据的聚集效应减弱，因为看上去全是数据，看不见产生聚集效应的稀疏隔离区域；<br><span style="background-color: #ff666680">稀疏数据占比减少，导致数据聚集效应的消失，导致特征学习变得困难</span></p>
+<h2><span class="highlight">“Bit Splitting and Leverage Score Sampling”</span> <span class="citation">(<span class="citation-item">Xi 等, 2023, p. 5</span>)</span></h2>
+<h3>BS(bit splitting)</h3>
+<p>🥢提出了比特拆分法（BS），将全精度矩阵拆分为高 4 比特和低 4 比特</p>
+<p style="padding-left: 40px" data-indent="1">做了两次量化</p>
+<p style="padding-left: 40px" data-indent="1">好处：提高了精度</p>
+<p style="padding-left: 40px" data-indent="1">坏处：计算量翻倍</p>
+<h3>LSS(leverage score sampling)</h3>
+<p>🥢提出了杠杆分数抽样（LSS）将两次量化的运算量减半</p>
+<p style="padding-left: 40px" data-indent="1">🧠核心思想：Y的梯度矩阵往往是很稀疏的，所以2N个矩阵中每个矩阵的重要性不同，一些不重要的矩阵对结果影响不大，但是占用计算资源，可以舍去从而减少计算时间的消耗</p>
+<p style="padding-left: 40px" data-indent="1">🌼步骤：</p>
+<p style="padding-left: 40px" data-indent="1">Ⅰ 用BS方法量化梯度Y，得到高位INT4和低位INT4</p>
+<p style="padding-left: 40px" data-indent="1">Ⅱ 用FP16计算杠杆分数ci</p>
+<p style="padding-left: 40px" data-indent="1">Ⅲ 对掩码mi采样</p>
+<p style="padding-left: 40px" data-indent="1">Ⅳ 根据掩码mi对梯度Y和激活X进行采样</p>
+<p style="padding-left: 40px" data-indent="1">Ⅴ 把矩阵M分成左上和右下乘到原本MM中进行INT4计算</p>
+<p style="padding-left: 40px" data-indent="1">Ⅵ 对 INT32 矩阵进行去量化和求和，得到 FP16 结果</p>
+<p></p>
+<h3>代码： <a href="https://github.com/xijiu9/Train_Transformers_with_INT4" rel="noopener noreferrer nofollow">https://github.com/xijiu9/Train_Transformers_with_INT4</a></h3>
+<p>🐟😊🛀🏠💤🌼😟🥢🐇</p>
+<p></p>
+<p></p>
+<p></p>
+</div></div></body></html>
