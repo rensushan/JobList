@@ -60,7 +60,7 @@ $$
 
 ​	数据集使用了对抗过滤(Adversarial Filtering, AF)技术生成。生成器为GPT，判别器为BERT，主打**增加上下文的多样性**和**文本长度**。
 
-<img src="Benchmark_pics/image-20230814114813669.png" alt="image-20230814114813669" style="zoom: 80%;" />
+<img src="https://github.com/rensushan/JobList/blob/main/Quantization/LLaMA/pics/AF.png" style="zoom: 80%;" />
 
 ​	不断迭代，不断生成新的文本去替换易辨别的文本，直到趋于稳定。
 
@@ -68,13 +68,13 @@ $$
 
 ​	作者通过**删除上下文**和**打乱ending中词语**的方式证明了**BERT类语言模型在fine-tune过程中是在每个(context, answer)对上进行词汇推理**。(systems primarily learn to detect distributional stylistic patterns during finetuning)
 
-![image-20230814115918001](Benchmark_pics/image-20230814115918001.png)
+<img src="[https://github.com/rensushan/JobList/blob/main/Quantization/LLaMA/pics/AF.png](https://github.com/rensushan/JobList/blob/main/Quantization/LLaMA/pics/AF%20iterate.png)" />
 
 ​	SWAG中生成句子和人类编写的endings差距很大，利用深层语言模型作为AF中的生成器可以有效降低BERT判别器的精度。
 
 ### SWAG到HellaSwag的迁移
 
-![image-20230814121336450](Benchmark_pics/image-20230814121336450.png)
+<img src="[https://github.com/rensushan/JobList/blob/main/Quantization/LLaMA/pics/AF.png](https://github.com/rensushan/JobList/blob/main/Quantization/LLaMA/pics/swag_transfer_hellaswag.png)" />
 
 在SWAG数据集不包含的wikiHow领域，迁移学习的效果表现差，这表明，SWAG的指标是不足以证明学习通用常识推理的能力。
 
